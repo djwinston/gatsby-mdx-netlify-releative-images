@@ -1,0 +1,3 @@
+[submodule "src/plugins/gatsby-remark-relative-images"]
+	path = src/plugins/gatsby-remark-relative-images
+	url = https://github.com/danielmahon/gatsby-remark-relative-images.git
