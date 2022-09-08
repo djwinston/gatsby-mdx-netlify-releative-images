@@ -1,7 +1,7 @@
 {
   "name": "mdx-netlify",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "description": "mdx-netlify",
   "author": "Andrew Schastlivcev",
   "keywords": [
