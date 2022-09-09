@@ -1,0 +1,89 @@
+backend:
+  name: git-gateway
+  branch: main
+  # repo: https://github.com/sparkybit/sparkybit-website-21
+  commit_messages:
+    create: 'Create {{collection}} “{{slug}}”'
+    update: 'Update {{collection}} “{{slug}}”'
+    delete: 'Delete {{collection}} “{{slug}}”'
+    uploadMedia: '[skip ci] Upload “{{path}}”'
+    deleteMedia: '[skip ci] Delete “{{path}}”'
+
+local_backend: true
+
+media_folder: static/img
+public_folder: /img
+
+site_url: https://sparkybit.com
+logo_url: https://sparkybit.com/img/sparkybit_logo_blue-1672.jpg
+search: false
+
+collections:
+  - name: page-md-content
+    label_singular: 'MD-PAGE-CONTENT'
+    label: 'MD Content'
+    description: "Section with actual posts. Press 'new MD Content Page' to add new post"
+    folder: 'content/md/'
+    create: true
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    fields:
+      - { label: 'Template Key', name: 'templateKey', widget: 'hidden', default: 'md-content' }
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - { label: 'Main post', name: 'mainPostImage', widget: image, required: true }
+      - { label: 'Publish Date', name: 'date', widget: 'datetime' }
+      - { label: 'Featured Post', name: 'featuredPost', widget: 'boolean' }
+      - { label: 'Featured Image', name: 'featuredImage', widget: image }
+      - { label: 'Short Description', name: 'description', widget: 'text' }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
+  - name: page-mdx-content
+    label_singular: 'MDX-PAGE-CONTENT'
+    label: 'MDX Content'
+    description: "Section with actual posts. Press 'new MDX Content Page' to add new post"
+    folder: 'content/mdx/'
+    create: true
+    extension: mdx
+    format: frontmatter
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    fields:
+      - { label: 'Template Key', name: 'templateKey', widget: 'hidden', default: 'mdx-content' }
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - { label: 'Main post', name: 'mainPostImage', widget: image, required: true }
+      - { label: 'Publish Date', name: 'date', widget: 'datetime' }
+      - { label: 'Featured Post', name: 'featuredPost', widget: 'boolean' }
+      - { label: 'Featured Image', name: 'featuredImage', widget: image }
+      - { label: 'Short Description', name: 'description', widget: 'text' }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
+  - name: page-md-src
+    label_singular: 'MD-PAGE-SRC'
+    label: 'MD Src'
+    description: "Section with actual posts. Press 'new MD Src Page' to add new post"
+    folder: 'src/md/'
+    create: true
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    fields:
+      - { label: 'Template Key', name: 'templateKey', widget: 'hidden', default: 'md-src' }
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - { label: 'Main post', name: 'mainPostImage', widget: image, required: true }
+      - { label: 'Publish Date', name: 'date', widget: 'datetime' }
+      - { label: 'Featured Post', name: 'featuredPost', widget: 'boolean' }
+      - { label: 'Featured Image', name: 'featuredImage', widget: image }
+      - { label: 'Short Description', name: 'description', widget: 'text' }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
+  - name: page-mdx-src
+    label_singular: 'MDX-PAGE-SRC'
+    label: 'MDX Src'
+    description: "Section with actual posts. Press 'new MDX Src Page' to add new post"
+    folder: 'src/mdx/'
+    create: true
+    extension: mdx
+    format: frontmatter
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    fields:
+      - { label: 'Template Key', name: 'templateKey', widget: 'hidden', default: 'mdx-src' }
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - { label: 'Main post', name: 'mainPostImage', widget: image, required: true }
+      - { label: 'Publish Date', name: 'date', widget: 'datetime' }
+      - { label: 'Featured Post', name: 'featuredPost', widget: 'boolean' }
+      - { label: 'Featured Image', name: 'featuredImage', widget: image }
+      - { label: 'Short Description', name: 'description', widget: 'text' }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
