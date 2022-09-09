@@ -1,29 +1,48 @@
-const path = require('path')
-const { createRemoteFileNode } = require('gatsby-source-filesystem')
+const path = require("path")
+const { createRemoteFileNode } = require("gatsby-source-filesystem")
 
 exports.onCreateNode = async ({ node, actions, createNodeId, cache, store }) => {
   // console.log(`TCL>>> ~ node BEFORE`, node);
   const { createNodeField, createNode } = actions
 
   if (node.internal.type === `Mdx` || node.internal.type === `MarkdownRemark`) {
-    const key = node.frontmatter.templateKey
-    const contentData = { id: node.id, imageId: 'md-content' }
-    const srcData = { id: node.id, imageId: 'md-src' }
+    const { frontmatter } = node
+    const key = frontmatter.templateKey
+    const contentDataMD = { id: node.id, imageId: "md-content" }
+    const srcDataMD = { id: node.id, imageId: "md-src" }
+    const contentDataMDX = { id: node.id, imageId: "mdx-content" }
+    const srcDataMDX = { id: node.id, imageId: "mdx-src" }
 
     switch (key) {
-      case 'md-content':
+      case "md-content":
         createNodeField({
           name: `imageContent`,
           node,
-          value: contentData,
+          value: contentDataMD,
         })
         break
 
-      case 'md-src':
+      case "md-src":
         createNodeField({
           name: `imageContent`,
           node,
-          value: srcData,
+          value: srcDataMD,
+        })
+        break
+
+      case "mdx-content":
+        createNodeField({
+          name: `imageContent`,
+          node,
+          value: contentDataMDX,
+        })
+        break
+
+      case "mdx-src":
+        createNodeField({
+          name: `imageContent`,
+          node,
+          value: srcDataMDX,
         })
         break
 
@@ -31,7 +50,22 @@ exports.onCreateNode = async ({ node, actions, createNodeId, cache, store }) => 
         // createNodeField({node})
         break
     }
+    const { featuredImage, mainPostImage } = frontmatter
+    if (featuredImage || mainPostImage) {
+      if (featuredImage.indexOf("/img") === 0) {
+        const relativePath = path.relative(
+          path.dirname(node.fileAbsolutePath),
+          path.join(__dirname, "static", featuredImage)
+        )
+        console.log('>>', relativePath);
+        
+        frontmatter.featuredImage = relativePath
+
+        console.log('<<<', frontmatter.featuredImage)
+      }
+    }
   }
+  createNodeField({node})
 }
 
 // exports.createSchemaCustomization = ({ actions, schema }) => {

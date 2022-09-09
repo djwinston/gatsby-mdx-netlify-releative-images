@@ -51,12 +51,12 @@ module.exports = {
       options: {
         extensions: [`.mdx`, `.md`],
         gatsbyRemarkPlugins: [
-          {
-            resolve: 'gatsby-remark-relative-images',
-            options: {
-              staticFolderName: path.join(__dirname, '/static'),
-            },
-          },
+          // {
+          //   resolve: 'gatsby-remark-relative-images',
+          //   options: {
+          //     staticFolderName: path.join(__dirname, '/static'),
+          //   },
+          // },
         ]
       },
     },
