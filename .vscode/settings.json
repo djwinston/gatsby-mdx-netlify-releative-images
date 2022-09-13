@@ -1,4 +1,3 @@
 {
-  "json.trace.server": "messages",
-  "typescript.tsserver.trace": "off"
+  "json.trace.server": "messages"
 }

@@ -1,7 +1,3 @@
-// import { Node } from "gatsby";
-
-export { }
-
 declare global {
   type GatsbyNodePluginArgs = {
     files: GatsbyFile[];
@@ -48,4 +44,4 @@ declare global {
   } & MarkdownNode;
 }
 
-
+export { }
