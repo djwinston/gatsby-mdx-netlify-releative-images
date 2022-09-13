@@ -1,14 +1,13 @@
-import path from 'path';
+import path from 'node:path';
 import { defaults, isString } from 'lodash';
 import traverse from 'traverse';
-import {
-  defaultPluginOptions,
-  PluginOptions,
-  GatsbyFile,
-  MarkdownNode,
-  findMatchingFile,
-} from '.';
-import { slash } from './utils'
+import { slash, findMatchingFile } from './utils'
+
+export const defaultPluginOptions = {
+  staticFolderName: 'static',
+  include: [],
+  exclude: [],
+};
 
 export type GatsbyPluginArgs = {
   node: MarkdownNode;
@@ -26,7 +25,7 @@ export const onCreateNode = (
   const { createNodeField } = actions
   const options = defaults(pluginOptions, defaultPluginOptions);
 
-  if (node.internal.type === `MarkdownRemark` || node.internal.type === `Mdx`) {
+  if (/* node.internal.type === `MarkdownRemark` || */ node.internal.type === `Mdx`) {
     const files = getNodesByType(`File`);
 
     const directory = path.dirname(node.fileAbsolutePath);
@@ -36,7 +35,6 @@ export const onCreateNode = (
       if (!isString(value)) return;
       if (!path.isAbsolute(value) || !path.extname(value)) return;
 
-      /* @ts-ignore */
       const paths = this.path.reduce<string[]>((acc, current) => {
         acc.push(acc.length > 0 ? [acc, current].join('.') : current);
         return acc;
@@ -58,7 +56,6 @@ export const onCreateNode = (
 
       const newValue = slash(path.relative(directory, file.absolutePath));
 
-      /* @ts-ignore */
       this.update(newValue);
     });
     createNodeField({ node })

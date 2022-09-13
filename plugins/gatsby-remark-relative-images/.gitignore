@@ -69,4 +69,4 @@ yarn-error.log
 .yarn-integrity
 
 # Build directory
-# dist/
+dist/*
