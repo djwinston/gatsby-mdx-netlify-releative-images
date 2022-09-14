@@ -2,7 +2,7 @@ import path from 'node:path';
 import { defaults, isString } from 'lodash';
 import traverse from 'traverse';
 import { slash, findMatchingFile } from './utils'
-import { Node, Actions } from "gatsby"
+
 
 export const defaultPluginOptions = {
   staticFolderName: 'static',
@@ -10,20 +10,11 @@ export const defaultPluginOptions = {
   exclude: [],
 };
 
-export type GatsbyPluginArgs = {
-  node: Node;
-  getNodesByType: (type: string) => GatsbyFile[];
-  actions: Actions;
-  reporter: {
-    info: (msg: string, error?: Error) => void;
-  };
-};
-
 export const onCreateNode = (
-  { node, getNodesByType, actions }: GatsbyPluginArgs,
+  { node, getNodesByType/* , actions */ }: GatsbyPluginArgs,
   pluginOptions: PluginOptions,
 ) => {
-  const { createNodeField, createNode } = actions
+  // const { createNodeField, createNode } = actions
   const options = defaults(pluginOptions, defaultPluginOptions);
 
   if (/* node.internal.type === `MarkdownRemark` || */ node.internal.type === `Mdx`) {
@@ -60,6 +51,5 @@ export const onCreateNode = (
 
       this.update(newValue);
     });
-    // createNodeField({ node, value: null })
   }
 };

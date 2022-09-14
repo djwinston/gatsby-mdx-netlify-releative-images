@@ -1,12 +1,6 @@
+import { Node, Actions } from "gatsby"
+
 declare global {
-  type GatsbyNodePluginArgs = {
-    files: GatsbyFile[];
-    markdownNode: MarkdownNode;
-    markdownAST: any;
-    reporter: {
-      info: (msg: string, error?: Error) => void;
-    };
-  };
 
   type GatsbyFile = {
     absolutePath: string;
@@ -18,31 +12,14 @@ declare global {
     exclude: string[];
   };
 
-  type FrontMatterOptions = {
-    staticFolderName: string;
-    include: string[];
-    exclude: string[];
-  };
-
-  type MarkdownNode = {
-    id: string;
-    parent: string;
-    url: string;
-    frontmatter?: object;
-    internal: {
-      type: string;
-      contentFilePath
+  type GatsbyPluginArgs = {
+    node: Node;
+    getNodesByType: (type: string) => GatsbyFile[];
+    actions: Actions;
+    reporter: {
+      info: (msg: string, error?: Error) => void;
     };
-    // fileAbsolutePath: string;
   };
-
-  // type Node = {
-  //   dir: string;
-  // };
-
-  type HtmlNode = {
-    value: string;
-  } & MarkdownNode;
 }
 
 export { }
