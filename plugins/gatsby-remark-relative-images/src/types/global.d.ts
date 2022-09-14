@@ -31,8 +31,9 @@ declare global {
     frontmatter?: object;
     internal: {
       type: string;
+      contentFilePath
     };
-    fileAbsolutePath: string;
+    // fileAbsolutePath: string;
   };
 
   type Node = {

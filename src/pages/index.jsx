@@ -1,7 +1,7 @@
 import * as React from "react"
 import { StaticImage, getImage, GatsbyImage } from "gatsby-plugin-image"
 import { graphql } from "gatsby"
-import { MDXRenderer } from "gatsby-plugin-mdx"
+// import { MDXRenderer } from "gatsby-plugin-mdx"
 import { MDXProvider } from "@mdx-js/react"
 
 // styles
@@ -41,21 +41,21 @@ const hr = {
 }
 
 // markup
-const IndexPage = ({ data }) => {
-  console.log(`TCL>>> ~ data`, data)
-  const images = data.allMdx.nodes[0].frontmatter
-  const image1 = getImage(images.featuredImage)
-  const image2 = getImage(images.mainPostImage)
-  const image3 = getImage(images.postImage)
-  const pageBody = data.allMdx.nodes[0].body
+const IndexPage = ({ data: { mdx }, children, location }) => {
+  console.log(`TCL>>> ~ location`, location)
+  console.log(`TCL>>> ~ children`, children)
+  console.log(`TCL>>> ~ mdx`, mdx)
+
+  const { frontmatter } = mdx
+  const image1 = getImage(frontmatter.featuredImage)
+  const image2 = getImage(frontmatter.mainPostImage)
+  const image3 = getImage(frontmatter.postImage)
+  // const pageBody = mdx.body
   // console.log(`TCL>>> ~ pageBody`, pageBody)
-  // console.log(`TCL>>> ~ images`, images)
+  
   const myParagraph = (props) => <p style={{ backgroundColor: "yellow" }} {...props} />
   const myImg = (props) => {
     console.log("img props", props.src)
-    // const src = props.src
-    // const pathSrc = "../../static/img/mahsa-gholami-4x8liUBelKo-unsplash.jpg"
-    //<StaticImage /* src={src} alt={props.alt} */ {...props} />
     return (
       <>
         <img style={{ width: "100%" }} {...props} alt="random props" />
@@ -107,9 +107,7 @@ const IndexPage = ({ data }) => {
       <div style={{ textAlign: "center" }}>PAGE MDX CONTENT</div>
       <hr style={hr} />
       <div style={{ width: "100%" }}>
-        <MDXProvider components={components}>
-          <MDXRenderer data={data}>{pageBody}</MDXRenderer>
-        </MDXProvider>
+        <MDXProvider components={components}>{/* <MDXRenderer data={data}>{pageBody}</MDXRenderer> */}</MDXProvider>
       </div>
     </main>
   )
@@ -118,53 +116,43 @@ const IndexPage = ({ data }) => {
 export default IndexPage
 
 export const query = graphql`
-  query HomePageQuery {
-    allMdx(filter: { frontmatter: { templateKey: { eq: "mdx-content" } } }) {
-      nodes {
-        frontmatter {
-          featuredPost
-          featuredImage {
-            publicURL
-            absolutePath
-            childImageSharp {
-              gatsbyImageData(
-                layout: CONSTRAINED
-                webpOptions: { quality: 95 }
-                quality: 95
-                breakpoints: [360, 768, 1024]
-              )
-            }
-            relativePath
-          }
-          mainPostImage {
-            publicURL
-            absolutePath
-            relativePath
-            childImageSharp {
-              gatsbyImageData(
-                layout: CONSTRAINED
-                webpOptions: { quality: 95 }
-                quality: 95
-                breakpoints: [360, 768, 1024]
-              )
-            }
-          }
-          postImage {
-            childImageSharp {
-              gatsbyImageData(
-                layout: CONSTRAINED
-                webpOptions: { quality: 95 }
-                quality: 95
-                breakpoints: [360, 768, 1024]
-              )
-            }
+  query {
+    mdx(frontmatter: { templateKey: { eq: "mdx-content" } }) {
+      body
+      fields {
+        slug
+      }
+      frontmatter {
+        featuredImage {
+          childImageSharp {
+            gatsbyImageData(
+              layout: CONSTRAINED
+              webpOptions: { quality: 95 }
+              quality: 95
+              breakpoints: [360, 768, 1024]
+            )
           }
         }
-        fileAbsolutePath
-        internal {
-          type
+        mainPostImage {
+          childImageSharp {
+            gatsbyImageData(
+              layout: CONSTRAINED
+              webpOptions: { quality: 95 }
+              quality: 95
+              breakpoints: [360, 768, 1024]
+            )
+          }
         }
-        body
+        postImage {
+          childImageSharp {
+            gatsbyImageData(
+              layout: CONSTRAINED
+              webpOptions: { quality: 95 }
+              quality: 95
+              breakpoints: [360, 768, 1024]
+            )
+          }
+        }
       }
     }
   }

@@ -1,8 +1,8 @@
 const path = require("path")
-const { createRemoteFileNode } = require("gatsby-source-filesystem")
+const { createFilePath } = require("gatsby-source-filesystem")
+const testTemplate = path.resolve(`./src/template/test.jsx`)
 
-exports.onCreateNode = async ({ node, actions, createNodeId, cache, store }) => {
-  // console.log(`TCL>>> ~ node BEFORE`, node);
+exports.onCreateNode = async ({ node, getNode, actions, createNodeId, cache, store }) => {
   const { createNodeField, createNode } = actions
 
   if (node.internal.type === `Mdx` || node.internal.type === `MarkdownRemark`) {
@@ -50,49 +50,54 @@ exports.onCreateNode = async ({ node, actions, createNodeId, cache, store }) => 
         // createNodeField({node})
         break
     }
-    const { featuredImage, mainPostImage } = frontmatter
-    if (featuredImage || mainPostImage) {
-      if (featuredImage.indexOf("/img") === 0) {
-        const relativePath = path.relative(
-          path.dirname(node.fileAbsolutePath),
-          path.join(__dirname, "static", featuredImage)
-        )
-        console.log('>>', relativePath);
-        
-        frontmatter.featuredImage = relativePath
-
-        console.log('<<<', frontmatter.featuredImage)
-      }
-    }
+    let slug = createFilePath({ node, getNode })
+    const regExp = new RegExp("(?<slash_start>^/)(?<path>.+)(?<slash_end>/$)", "gm")
+    const path = regExp.exec(slug).groups.path
+    createNodeField({
+      node,
+      name: `slug`,
+      value: path,
+    })
   }
-  createNodeField({node})
 }
 
-// exports.createSchemaCustomization = ({ actions, schema }) => {
-//   const { createTypes } = actions
-//   const typeDefs = [
-//     'type Mdx implements Node { frontmatter: Frontmatter }',
-//     schema.buildObjectType({
-//       name: 'Frontmatter',
-//       fields: {
-//         tags: {
-//           type: '[String!]',
-//           resolve(source, args, context, info) {
-//             console.log(`TCL>>> ~ info`, info)
-//             console.log(`TCL>>> ~ context`, context)
-//             console.log(`TCL>>> ~ args`, args)
-//             console.log(`TCL>>> ~ source`, source)
-//             // For a more generic solution, you could pick the field value from
-//             // `source[info.fieldName]`
-//             const { tags } = source
-//             if (source.tags == null || (Array.isArray(tags) && !tags.length)) {
-//               return ['uncategorized']
-//             }
-//             return tags
-//           },
-//         },
-//       },
-//     }),
-//   ]
-//   createTypes(typeDefs)
-// }
+exports.createPages = ({ actions, graphql }) => {
+  const { createPage } = actions
+
+  return graphql(`
+    {
+      allMdx(filter: { frontmatter: { templateKey: { eq: "mdx-src" } } }) {
+        edges {
+          node {
+            fields {
+              slug
+            }
+            id
+            frontmatter {
+              title
+              templateKey
+            }
+            internal {
+              contentFilePath
+            }
+          }
+        }
+      }
+    }
+  `).then((result) => {
+    const page = result.data.allMdx.edges
+    
+    page.forEach(edge => {
+      prefix = 'test'
+      const id = edge.node.id
+      createPage({
+        path: `${prefix}/${edge.node.fields.slug}`,
+        component: `${testTemplate}?__contentFilePath=${edge.node.internal.contentFilePath}`,
+        context:{
+          id
+        }
+      })
+
+    })
+  })
+}
