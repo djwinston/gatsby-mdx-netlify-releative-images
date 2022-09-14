@@ -36,9 +36,9 @@ declare global {
     // fileAbsolutePath: string;
   };
 
-  type Node = {
-    dir: string;
-  };
+  // type Node = {
+  //   dir: string;
+  // };
 
   type HtmlNode = {
     value: string;
