@@ -1,9 +1,11 @@
-import { Node, Actions } from "gatsby"
+
+import { Node, Actions, Reporter } from "gatsby";
 
 declare global {
 
-  type GatsbyFile = {
+  type GatsbyFile = Node & {
     absolutePath: string;
+    sourceInstanceName: string;
   };
 
   type PluginOptions = {
@@ -16,9 +18,7 @@ declare global {
     node: Node;
     getNodesByType: (type: string) => GatsbyFile[];
     actions: Actions;
-    reporter: {
-      info: (msg: string, error?: Error) => void;
-    };
+    reporter: Reporter
   };
 }
 
