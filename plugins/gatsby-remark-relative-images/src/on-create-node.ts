@@ -1,10 +1,9 @@
 import path from 'node:path';
-// import fs from 'node:fs'
-import { defaults, isString } from 'lodash';
+// import { defaults, isString } from 'lodash';
 import traverse from 'traverse';
 import { slash, findMatchingFile } from './utils'
 
-export const defaultPluginOptions = {
+export const defaultPluginOptions: PluginOptions = {
   staticFolderName: 'static',
   include: [],
   exclude: [],
@@ -14,22 +13,19 @@ export const onCreateNode = (
   { node, getNodesByType, reporter }: GatsbyPluginArgs,
   pluginOptions: PluginOptions,
 ) => {
-  // const { createNodeField, createNode } = actions
-  const options = defaults(pluginOptions, defaultPluginOptions);
+  // const options = defaults(pluginOptions, defaultPluginOptions);
+  const options = { ...defaultPluginOptions, ...pluginOptions };
+  // console.log(`TCL>>> ~ options`, options)
 
-  if (/* node.internal.type === `MarkdownRemark` || */ node.internal.type === `Mdx`) {    
+  if (/* node.internal.type === `MarkdownRemark` || */ node.internal.type === `Mdx`) {
     const files = getNodesByType(`File`).filter(node => node.internal.mediaType?.includes('image'));
-    //debug
-    // console.log(`TCL>>> ~ files`, files)    
-    // const filesList = JSON.stringify(files)
-    // const NodeObj = JSON.stringify(node)
-    // fs.writeFileSync('logNode.json', NodeObj, { flag: 'a' })
 
     try {
       const directory = node.internal.contentFilePath ? path.dirname(node.internal.contentFilePath) : '';
+
       // Deeply iterate through frontmatter data for absolute paths
       traverse(node.frontmatter).forEach(function (value) {
-        if (!isString(value)) return;
+        if (typeof value !== 'string') return;
         if (!path.isAbsolute(value) || !path.extname(value)) return;
 
         const paths = this.path.reduce<string[]>((acc, current) => {
@@ -57,8 +53,7 @@ export const onCreateNode = (
         this.update(newValue);
       });
     } catch (error) {
-      if (error instanceof Error) reporter.panic('gatsby-remark-relative-images Error', error)      
+      if (error instanceof Error) reporter.panic('gatsby-remark-relative-images Error', error)
     }
-
   }
 };
