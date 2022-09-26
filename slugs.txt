@@ -1,0 +1,2 @@
+"slug": "mdx/2022-05-05-mdx-1-content"
+"slug": "mdx/2022-05-05-mdx-1-src"

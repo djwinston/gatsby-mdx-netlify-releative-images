@@ -1,0 +1,4 @@
+{
+  "json.trace.server": "messages",
+  "typescript.tsserver.trace": "off"
+}
