@@ -6094,6 +6094,13 @@ gatsby-remark-images@^6.23.1:
     unist-util-select "^3.0.4"
     unist-util-visit-parents "^3.1.1"
 
+gatsby-remark-mdx-relative-images@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/gatsby-remark-mdx-relative-images/-/gatsby-remark-mdx-relative-images-1.0.2.tgz#d11726d7aafff2f3ff362df7ef7775251cbd33c2"
+  integrity sha512-hEc15NTXIpBitM13OhtAgRCCA/coqcQba1ZK72HCtI+2H7Kyjo2TSOKM11KaGfGoe7WANlWg5Iwq/awGxxdBwg==
+  dependencies:
+    traverse "0.6.6"
+
 gatsby-script@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/gatsby-script/-/gatsby-script-1.8.0.tgz#aabb592a490c6a006e49872d12d59437db2320e7"
@@ -12529,6 +12536,11 @@ tr46@~0.0.3:
   version "0.0.3"
   resolved "https://registry.npmjs.org/tr46/-/tr46-0.0.3.tgz"
   integrity sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==
+
+traverse@0.6.6:
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/traverse/-/traverse-0.6.6.tgz#cbdf560fd7b9af632502fed40f918c157ea97137"
+  integrity sha512-kdf4JKs8lbARxWdp7RKdNzoJBhGUcIalSYibuGyHJbmk40pOysQ0+QPvlkCOICOivDWU2IJo2rkrxyTK2AH4fw==
 
 trim-lines@^1.0.0:
   version "1.1.3"
